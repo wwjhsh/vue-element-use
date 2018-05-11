@@ -19,12 +19,23 @@ new Vue({
     components: {
         App
     },
+    created(){
+        // this.setClientWidth();
+    },
     mounted(){
+        console.log(this)
         this.setOpenTabList();
+        var that = this;
+        window.onresize = function () {
+            that.setClientWidth();
+        };
     },
     methods:{
         ...mapMutations('tab',[
             'setOpenTabList'
+        ]),
+        ...mapMutations([
+            'setClientWidth'
         ])
     },
     template: '<App/>'

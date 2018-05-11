@@ -6,7 +6,7 @@ import actions from './action'
 import getters from './getters'
 Vue.use(Vuex);
 const state = {
-
+    clientWidth:0
 }
 
 export default new Vuex.Store({
