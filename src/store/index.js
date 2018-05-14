@@ -1,6 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import tab from '@/store/modules/tab'
+import user from '@/store/modules/user'
 import mutations from './mutations'
 import actions from './action'
 import getters from './getters'
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     actions,
     mutations,
     modules: {
-        tab
+        tab,
+        user
     }
 })

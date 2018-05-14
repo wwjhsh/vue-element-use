@@ -1,7 +1,6 @@
 //路由页面
 import Main from '@/views/Main.vue';
 import Interface from '@/views/interface'
-import HelloWorld from '@/components/HelloWorld'
 //错误页面
 import Error404 from '@/views/errorpage/Error404.vue'
 //左侧菜单页面
@@ -11,15 +10,16 @@ import MngTpl from '@/views/manage/mngtpl.vue'
 import UserInfo from '@/views/user/userinfo.vue'
 import Msg from '@/views/info/msg.vue'
 //其他页面
-
-export const loginRouter = {
+import HelloWorld from '@/components/HelloWorld'
+import Login from '@/views/login/login'
+export const loginRouter = [{
     path: '/login',
     name: 'login',
     meta: {
         title: 'Login - 登录'
     },
-    component: () => HelloWorld
-};
+    component: Login
+}];
 export const All = {
     path: '*',
     redirect:'/error/404'
@@ -79,7 +79,7 @@ export const appRouter = [
 // 所有上面定义的路由都要写在下面的routers里
 export const routes = [
     All,
-    loginRouter,
+    ...loginRouter,
     ErrorRouter,
     otherRouter,
     ...appRouter

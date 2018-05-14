@@ -22,6 +22,41 @@
                 <el-menu-item index="info">消息中心</el-menu-item>
                 <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
                 </el-menu>
+                <el-menu
+                    default-active="manage"
+                    class="el-menu-header-right"
+                    mode="horizontal"
+                    :background-color="navBgColor"
+                    text-color="#fff"
+                    active-text-color="none">
+                    <el-menu-item index="1">
+                        <i class="el-icon-search"></i>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <i class="el-icon-zoom-in"></i>
+                    </el-menu-item>
+                    <!--<el-menu-item index="3">-->
+                        <!--<img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3105518379,1723849651&fm=58"/>-->
+                    <!--</el-menu-item>-->
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3105518379,1723849651&fm=58"/>
+                        </template>
+                        <el-menu-item index="3-1" @click="logout($router)">退出登录</el-menu-item>
+                    </el-submenu>
+                </el-menu>
+                <!--<div-->
+                    <!--class="el-menu-header-right">-->
+                    <!--<span >-->
+                        <!--<i class="el-icon-search"></i>-->
+                    <!--</span>-->
+                    <!--<span >-->
+                        <!--<i class="el-icon-zoom-in"></i>-->
+                    <!--</span>-->
+                    <!--<span>-->
+                        <!--<img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3105518379,1723849651&fm=58"/>-->
+                    <!--</span>-->
+                <!--</div>-->
             </el-header>
             <el-header :style="{height:'40px',padding:0}">
                 <TagPage ></TagPage>
@@ -63,8 +98,7 @@ export default {
 
     },
     methods: {
-
-
+        ...mapActions('user',['logout']),
         handleSelect(key) {//顶部菜单切换
           this.defaultMenu = key;
         }
@@ -81,6 +115,28 @@ export default {
     .el-menu-header{
         min-width: 400px;
         margin-left: 40px;
+    }
+    .el-menu-header-right{
+        position: relative;
+        top:-61px;
+        float: right;
+        height: 60px;
+        line-height: 60px;
+        color: white;
+    }
+    .el-menu-header-right .el-menu-item{
+        margin: 0 6px;
+        padding: 0 6px;
+        cursor:pointer;
+    }
+    .el-menu-header-right .el-menu-item i{
+        color: #fff;
+    }
+    .el-menu-header-right .el-menu-item img,.el-menu-header-right .el-submenu img{
+        display: inline-block;
+        height: 36px;
+        vertical-align: middle;
+        border-radius: 18px;
     }
     .sideControl{
         position: absolute;
