@@ -2,12 +2,25 @@
   <div id="app" class="app-main">
     <!-- <img src="./assets/logo.png"/> -->
     <router-view/>
+    <ClickAnimation ref="cursor"></ClickAnimation>
   </div>
 </template>
 
 <script>
+    import ClickAnimation from  '@/components/ClickAnimation'
 export default {
-  name: 'App'
+    name: 'App',
+    components:{
+        ClickAnimation
+    },
+    created(){
+    },
+    mounted(){
+        let that =this;
+        document.addEventListener("click",(e)=>{
+            that.$refs["cursor"].act(e);
+        })
+    }
 }
 </script>
 

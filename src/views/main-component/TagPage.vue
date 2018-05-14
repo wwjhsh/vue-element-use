@@ -37,7 +37,7 @@
 
 <script>
     import { createNamespacedHelpers } from 'vuex'
-    const { mapState, mapMutations } = createNamespacedHelpers('tab');
+    const { mapState, mapMutations ,mapActions} = createNamespacedHelpers('tab');
     export default {
         name: "TagPage",
         data(){
@@ -50,9 +50,9 @@
                 'currentTab'])
         },
         mounted(){
-            var that=this;
-            setTimeout(function () {
-                console.log(that)
+            this.handleMenuEvent({name:this.$route.name,title:this.$route.meta.title});
+            setTimeout( () =>{
+                console.log(this)
             },2000)
         },
         methods:{
@@ -60,7 +60,11 @@
                 'removeAllTab',
                 'removeOtherTab',
                 'removeOneTab',
-                'setCurrentTab'
+                'setCurrentTab',
+                'setOpenTabList'
+            ]),
+            ...mapActions([
+                'handleMenuEvent'
             ]),
             move(dir) {
                 let moveLength =this.$refs.showbox.offsetWidth-20,
@@ -84,9 +88,11 @@
         },
         watch:{
             'currentTab.name'(val,oldval){
-                this.$router.push({
-                    name:val
-                })
+                if (this.$router.currentRoute.name!==val){
+                    this.$router.push({
+                        name:val
+                    })
+                }
             },
             'openTabList.length'(){
                 setTimeout(() => {
@@ -97,6 +103,9 @@
                         this.$refs.tagList.style.left=showboxLength-20 - tagListLength+'px';
                     }
                 }, 350)
+            },
+            '$route'(to){
+                this.handleMenuEvent({name:to.name,title:to.meta.title});
             }
         }
     }

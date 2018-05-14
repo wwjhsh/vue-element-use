@@ -20,14 +20,11 @@ new Vue({
         App
     },
     created(){
-        // this.setClientWidth();
+        this.setOpenTabList();
     },
     mounted(){
-        console.log(this)
-        this.setOpenTabList();
-        var that = this;
-        window.onresize = function () {
-            that.setClientWidth();
+        window.onresize = () =>{
+            this.setClientWidth();
         };
     },
     methods:{

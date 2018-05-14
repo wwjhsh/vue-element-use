@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    import { mapState ,mapActions } from 'vuex'
+    import { mapState ,mapActions ,mapMutations} from 'vuex'
     import SideMenu from '@/views/main-component/SideMenu.vue'
     import TagPage from '@/views/main-component/TagPage.vue'
 export default {
@@ -54,27 +54,22 @@ export default {
     },
     computed:{
         ...mapState('tab',{//计算router需要缓存的路由
-            cacherouter: state => state.openTabList.map((item)=>{
+            'cacherouter': state => state.openTabList.map((item)=>{
                 return item.name
             }).join(','),
         })
     },
     mounted(){
-        // console.log(this.$route)
-        this.handleMenuEvent({name:this.$route.name,title:this.$route.meta.title});
+
     },
     methods: {
-        ...mapActions('tab',[
-            'handleMenuEvent'
-        ]),
+
+
         handleSelect(key) {//顶部菜单切换
           this.defaultMenu = key;
         }
     },
     watch:{
-        '$route'(to){
-            this.handleMenuEvent({name:to.name,title:to.meta.title});
-        }
     }
 };
 </script>

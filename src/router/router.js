@@ -1,6 +1,17 @@
+//路由页面
 import Main from '@/views/Main.vue';
-import HelloWorld from '@/components/HelloWorld'
 import Interface from '@/views/interface'
+import HelloWorld from '@/components/HelloWorld'
+//错误页面
+import Error404 from '@/views/errorpage/Error404.vue'
+//左侧菜单页面
+import Home from '@/views/index/index.vue'
+import MngUser from '@/views/manage/mnguser.vue'
+import MngTpl from '@/views/manage/mngtpl.vue'
+import UserInfo from '@/views/user/userinfo.vue'
+import Msg from '@/views/info/msg.vue'
+//其他页面
+
 export const loginRouter = {
     path: '/login',
     name: 'login',
@@ -8,6 +19,21 @@ export const loginRouter = {
         title: 'Login - 登录'
     },
     component: () => HelloWorld
+};
+export const All = {
+    path: '*',
+    redirect:'/error/404'
+};
+export const ErrorRouter = {
+    path: '/error',
+    name: 'error',
+    meta: {
+        title: '访问错误'
+    },
+    component:Interface,
+    children: [
+        { path: '404', title: '访问错误', name: 'error404', component: Error404 },
+    ]
 };
 export const otherRouter = {
     path: '/',
@@ -17,11 +43,6 @@ export const otherRouter = {
         { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/index/index.vue') },
     ]
 };
-export const Hello = {
-    path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
-};
 export const appRouter = [
     {
         path: '/manage',
@@ -29,10 +50,10 @@ export const appRouter = [
         redirect: '/manage/home',
         component: Main,
         children: [
-            { path: 'home', icon: 'menu',meta:{title: '首页'}, title: '首页', name: 'home', component: () => import('@/views/index/index.vue') },
-            { path: '/', icon: 'menu', meta:{title: '后台管理'},redirect: '/manage/user', title: '后台管理', name: 'back',component:Interface,children: [
-                { path: 'user', icon: 'menu',meta:{title: '用户管理'}, title: '用户管理', name: 'mnguser', component: () => import('@/views/manage/mnguser.vue') },
-                { path: 'tpl', icon: 'menu', meta:{title: '模板管理'},title: '模板管理', name: 'mngtpl', component: () => import('@/views/manage/mngtpl.vue') },
+            { path: 'home', icon: 'menu',meta:{title: '首页'}, title: '首页', name: 'home', component: Home },
+            { path: '/', icon: 'menu', meta:{title: '后台管理'},redirect: '/manage/home', title: '后台管理', name: 'back',component:Interface,children: [
+                { path: 'user', icon: 'menu',meta:{title: '用户管理'}, title: '用户管理', name: 'mnguser', component: MngUser},
+                { path: 'tpl', icon: 'menu', meta:{title: '模板管理'},title: '模板管理', name: 'mngtpl', component: MngTpl },
             ]},
         ]
     },
@@ -42,7 +63,7 @@ export const appRouter = [
         redirect: '/user/',
         component: Main,
         children: [
-            { path: '/', icon: 'menu',meta:{title: '个人资料'}, title: '个人资料', name: 'userinfo', component: () => import('@/views/user/userinfo.vue') },
+            { path: '/', icon: 'menu',meta:{title: '个人资料'}, title: '个人资料', name: 'userinfo', component: UserInfo},
         ]
     },
     {
@@ -51,14 +72,15 @@ export const appRouter = [
         redirect: '/info/',
         component: Main,
         children: [
-            { path: '/', icon: 'menu',meta:{title: '消息'}, title: '消息', name: 'msg', component: () => import('@/views/info/msg.vue') },
+            { path: '/', icon: 'menu',meta:{title: '消息'}, title: '消息', name: 'msg', component: Msg },
         ]
     }
 ];
 // 所有上面定义的路由都要写在下面的routers里
 export const routes = [
-    Hello,
+    All,
     loginRouter,
+    ErrorRouter,
     otherRouter,
     ...appRouter
 ];
