@@ -9,14 +9,14 @@
                 <el-form-item>
                     <el-input v-model="loginData.name">
                         <template slot="prepend">
-                            <span class="label">用户名</span>&nbsp;
+                            <span class="label">用户名</span>
                         </template>
                     </el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-input type="password" v-model="loginData.password">
                         <template slot="prepend">
-                            <span class="label">密码</span>&nbsp;
+                            <span class="label">密码</span>
                         </template>
                     </el-input>
                 </el-form-item>
@@ -80,5 +80,14 @@
         display: inline-block;
         width: 60px;
         text-align: justify;
+        white-space: normal;
+        line-height: 0;
+    }
+    .login-box .el-form-item .label::after{
+        content: '';
+        display: inline-block;
+        width: 100%;
+        height: 0;
+        overflow: hidden;
     }
 </style>

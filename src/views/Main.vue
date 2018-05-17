@@ -30,7 +30,7 @@
                     text-color="#fff"
                     active-text-color="none">
                     <el-menu-item index="1">
-                        <i class="el-icon-search"></i>
+                        <srchbox></srchbox>
                     </el-menu-item>
                     <el-menu-item index="2">
                         <i class="el-icon-zoom-in"></i>
@@ -73,10 +73,12 @@
     import { mapState ,mapActions ,mapMutations} from 'vuex'
     import SideMenu from '@/views/main-component/SideMenu.vue'
     import TagPage from '@/views/main-component/TagPage.vue'
+    import srchbox from '@/views/main-component/srchbox.vue'
 export default {
     components:{
         SideMenu,
-        TagPage
+        TagPage,
+        srchbox
     },
     name: "Main",
     data() {
