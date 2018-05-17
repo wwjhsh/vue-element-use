@@ -16,6 +16,7 @@ export const loginRouter = [{
     path: '/login',
     name: 'login',
     meta: {
+        unlogin:true,//允许未登录状态下访问
         title: 'Login - 登录'
     },
     component: Login
@@ -37,11 +38,7 @@ export const ErrorRouter = {
 };
 export const otherRouter = {
     path: '/',
-    name: 'otherRouter',
-    component: Main,
-    children: [
-        { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/index/index.vue') },
-    ]
+    redirect: '/manage'
 };
 export const appRouter = [
     {
