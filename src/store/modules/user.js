@@ -1,4 +1,7 @@
-
+import http from  '@/libs/httpServer'
+let MD5 = require("crypto-js/md5");
+import { Message } from 'element-ui';
+import { Cookie} from '@/libs/util'
 const user = {
     namespaced: true,
     state: {
@@ -8,32 +11,48 @@ const user = {
         isLogin:false
     },
     mutations: {
-        ['setUserInfo'](state,{username}){
-            state.userinfo.username=username;
-            localStorage.setItem('username',username);
+        ['setUserInfo'](state,user){
+            state.userinfo=user;
+            localStorage.setItem('user',JSON.stringify(user));
         },
-        ['setIsLogin'](state,{isLogin}){
-            state.userinfo.isLogin=isLogin;
-            localStorage.setItem('isLogin',isLogin);
+        ['getUserInfo'](state){
+            let user = localStorage.getItem('user');
+            state.userinfo=JSON.parse(user);
         }
     },
     actions: {
         ['login'] (context,{username,password}) {
             let promise = new Promise((resolve, reject) =>{
-                //ajax success function{
-                context.commit('setUserInfo',{username:username});
-                context.commit('setIsLogin',{isLogin:true});
-                resolve();
-                // }
-                //ajax fail function{
-                // reject()
-                // }
+                http({
+                    url:'',
+                    obj:{
+                        's':'App.User.Login',
+                        'username':username,
+                        'password':MD5(password).toString(),
+                    },
+                    // type:'',
+                    success:function(res){
+                        if(res.err_code!=0){
+                            Message.error({
+                                message: res.err_msg,
+                                center: true
+                            });
+                        }else{
+                            localStorage.setItem('token',res.token);
+                            localStorage.setItem('uuid',res.uuid);
+                            resolve();
+                        }
+                    },
+                    fail:function (e) {
+                        reject()
+                    }
+                });
             });
             return promise;
         },
         ['logout'] (context,$router) {
-            context.commit('setUserInfo',{username:''});
-            context.commit('setIsLogin',{isLogin:false});
+            localStorage.setItem('token','');
+            localStorage.setItem('uuid','');
             $router.replace({
                 name:'login'
             })

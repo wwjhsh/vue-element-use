@@ -13,7 +13,7 @@ router.beforeEach((to, from, next) => {
   if(to.meta.unlogin&&to.meta.unlogin==true){
     next();                                   //跳过允许不登录的页面
   }else{
-    if(localStorage.getItem('isLogin')=='true'){//缓存中存在登陆状态
+    if(localStorage.getItem('uuid')&&localStorage.getItem('uuid')!==''){//缓存中存在登陆状态
       next(); 
     }else{
       next({
