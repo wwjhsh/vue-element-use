@@ -42,9 +42,10 @@
             }
         },
         methods:{
-            ...mapActions('user',['login']),
+            ...mapActions('user',['login','getUsrInfo']),
             loginClick:function () {
                 this.login({username:this.loginData.name,password:this.loginData.password}).then(()=>{
+                    this.getUsrInfo();
                     this.$router.push({
                         name:'home'
                     })

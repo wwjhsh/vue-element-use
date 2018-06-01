@@ -3,6 +3,7 @@ import Main from '@/views/Main.vue';
 import Interface from '@/views/interface'
 //错误页面
 import Error404 from '@/views/errorpage/Error404.vue'
+import Error401 from '@/views/errorpage/Error401.vue'
 //左侧菜单页面
 import Home from '@/views/index/index.vue'
 import MngUser from '@/views/manage/mnguser.vue'
@@ -34,6 +35,7 @@ export const ErrorRouter = {
     component:Interface,
     children: [
         { path: '404', title: '访问错误', name: 'error404', component: Error404 },
+        { path: '401', title: '权限不足', name: 'error401', component: Error401 },
     ]
 };
 export const otherRouter = {
@@ -49,8 +51,8 @@ export const appRouter = [
         children: [
             { path: 'home', icon: 'menu',meta:{title: '首页'}, title: '首页', name: 'home', component: Home },
             { path: '/', icon: 'menu', meta:{title: '后台管理'},redirect: '/manage/home', title: '后台管理', name: 'back',component:Interface,children: [
-                { path: 'user', icon: 'menu',meta:{title: '用户管理'}, title: '用户管理', name: 'mnguser', component: MngUser},
-                { path: 'tpl', icon: 'menu', meta:{title: '模板管理'},title: '模板管理', name: 'mngtpl', component: MngTpl },
+                { path: 'user', icon: 'menu', meta:{title: '用户管理', access: ['admin']}, title: '用户管理', name: 'mnguser', component: MngUser},
+                { path: 'tpl',  icon: 'menu', meta:{title: '模板管理'}, title: '模板管理', name: 'mngtpl', component: MngTpl },
             ]},
         ]
     },
@@ -78,6 +80,10 @@ export const routes = [
     All,
     ...loginRouter,
     ErrorRouter,
+    otherRouter,
+    ...appRouter
+];
+export const needLoginRouter = [
     otherRouter,
     ...appRouter
 ];

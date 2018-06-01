@@ -5,19 +5,32 @@ import { Cookie} from '@/libs/util'
 const user = {
     namespaced: true,
     state: {
-        userinfo:{
-            username:''
-        },
-        isLogin:false
+        register_ip:"",
+        register_time:"",
+        role:"",
+        rolename:"",
+        username:"",
+        isLogin:false,
+
     },
     mutations: {
-        ['setUserInfo'](state,user){
-            state.userinfo=user;
-            localStorage.setItem('user',JSON.stringify(user));
+        ['setUserInfo'](state,info){
+            state.register_ip=info.register_ip;
+            state.register_time=info.register_time;
+            state.role=info.role;
+            state.rolename=info.rolename;
+            state.username=info.username;
+            localStorage.setItem('user',JSON.stringify(info));
         },
-        ['getUserInfo'](state){
-            let user = localStorage.getItem('user');
-            state.userinfo=JSON.parse(user);
+        ['getUserLocal'](state){
+            if(localStorage['user']){
+                let info = JSON.parse(localStorage['user']);
+                state.register_ip=info.register_ip;
+                state.register_time=info.register_time;
+                state.role=info.role;
+                state.rolename=info.rolename;
+                state.username=info.username;
+            }
         }
     },
     actions: {
@@ -49,6 +62,33 @@ const user = {
                 });
             });
             return promise;
+        },
+        ['getUsrInfo'] (context) {
+            let promise = new Promise((resolve, reject) =>{
+                http({
+                    url:'',
+                    obj:{
+                        's':'App.User.Profile'
+                    },
+                    success:function(res){
+                        console.log(res)
+                        if(res.err_code!=0){
+                            Message.error({
+                                message: res.err_msg,
+                                center: true
+                            });
+                        }else{
+                            context.commit('setUserInfo',res.info);
+                            resolve();
+                        }
+                    },
+                    fail:function (e) {
+                        console.log(e)
+                        reject()
+                    }
+                });
+                return promise;
+            })
         },
         ['logout'] (context,$router) {
             localStorage.setItem('token','');

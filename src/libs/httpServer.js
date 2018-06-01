@@ -1,5 +1,6 @@
 import 'whatwg-fetch'
 import { Message,Loading } from 'element-ui';
+import vm from '@/main'
 let MD5 = require("crypto-js/md5");
 const APPKEY = '13BCAB01FD9D97B84DACA6835CABC117';
 const APPSECRECT = 'si6NIatUa9pezIqlGQTxSkg1r2fId7MeOYoUbJw5Zoe6wrY0xH2LRHPLAl3VpgZSbR9lj3L7haRqM';
@@ -21,18 +22,16 @@ function getUrlEncodeData(obj) {
 }
 async function http ({url:url,obj:obj,type:type,success:success,fail:fail}) {
     try {
-        let loading = Loading.service({
+        let loading = Loading.service({//loading状态开始
             fullscreen:false,
             body:true,
             background:   'transparent'
         });
         let option = {
             method: 'POST',
-            // cache:  'reload'
         };
         let myHeaders = new Headers({
             'Content-Type': 'application/x-www-form-urlencoded'
-            // 'Content-Type': 'application/json'
         });
         let data = {
             'app_key':APPKEY
@@ -55,9 +54,11 @@ async function http ({url:url,obj:obj,type:type,success:success,fail:fail}) {
         let response = await fetch(req);
         let res = response.json();
         res.then((data)=>{
-            loading.close();
+            loading.close();//loading状态结束
             if(data.ret==200){
                 success(data.data);
+            }else if(data.ret==401){//用户未登陆，或登陆态过期
+                vm.$store.dispatch('user/logout',vm.$router);
             }else{
                 Message.error({
                     message: data.msg,
@@ -65,7 +66,8 @@ async function http ({url:url,obj:obj,type:type,success:success,fail:fail}) {
                 });
             }
         })
-    } catch(e) {
+    } catch(e) {//loading状态结束
+        //@todo 网络异常统一处理
         loading.close();
         fail(e);
     }

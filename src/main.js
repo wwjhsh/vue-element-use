@@ -12,7 +12,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 
 /* eslint-disable no-new */
-new Vue({
+export default new Vue({
     el: '#app',
     router,
     store,
@@ -21,6 +21,7 @@ new Vue({
     },
     created(){
         this.setOpenTabList();
+        this.getUserLocal();
     },
     mounted(){
         window.onresize = () =>{
@@ -30,6 +31,9 @@ new Vue({
     methods:{
         ...mapMutations('tab',[
             'setOpenTabList'
+        ]),
+        ...mapMutations('user',[
+            'getUserLocal'
         ]),
         ...mapMutations([
             'setClientWidth'
